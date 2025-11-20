@@ -57,5 +57,21 @@ namespace Student_Manager.Function.cs
             return true;
         }
 
+        public bool UpdateStudentGrade(int id, char newGrade)
+        {
+            var student = students.Find(c => c.Id == id);
+            if (student == null)
+            {
+                throw new ArgumentException("Student not found");
+            }
+            student.Grade = newGrade;
+            XmlSerializer serializer = new(typeof(List<Student>));
+            using (FileStream fs = new FileStream("students.xml", FileMode.Create))
+            {
+                serializer.Serialize(fs, students);
+            }
+            return true;
+        }
+
     }
 }
