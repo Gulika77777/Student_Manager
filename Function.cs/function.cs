@@ -8,17 +8,18 @@ namespace Student_Manager.Function.cs
     {
        private List<Student> students = [];
 
-        public bool CreateNewStudent(string name,
+        public bool CreateNewStudent(int id,
+                                     string name,
                                      int rollNumber,
                                      char grade )
         {
 
-            if (students.Exists(c => c.Name == name))
+            if (students.Exists(c => c.Id == id))
             {
                 throw new ArgumentException("this student is registered");
             }
 
-           students.Add(new Student(name, rollNumber, grade));
+           students.Add(new Student(id ,name, rollNumber, grade));
 
 
             XmlSerializer serializer = new(typeof(List<Student>));
@@ -27,6 +28,32 @@ namespace Student_Manager.Function.cs
             {
                 serializer.Serialize(fs, students);
             }
+            return true;
+        }
+
+
+        public bool ShowAllStudent() 
+        {
+            if (students.Count == 0)
+            {
+               throw new ArgumentException("No students registered");
+            }
+            foreach (var student in students)
+            {
+                Console.WriteLine($" Id:{student.Id}, Name: {student.Name}, Roll Number: {student.RollNumber}, Grade: {student.Grade}");
+            }
+            return true;
+
+        }
+
+        public bool FindStudentById(int id)
+        {
+            var student = students.Find(c => c.Id == id);
+            if (student == null)
+            {
+                throw new ArgumentException("Student not found");
+            }
+            Console.WriteLine($" Id:{student.Id}, Name: {student.Name}, Roll Number: {student.RollNumber}, Grade: {student.Grade}");
             return true;
         }
 

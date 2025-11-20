@@ -5,6 +5,20 @@ namespace Student_Manager.Student.cs
     internal class Student
     {
         private char _grade;
+        private int _id;
+
+        public int Id {
+            get { return _id}
+            init 
+            { 
+                if (value.length != 4)
+                {
+                    throw new ArgumentException("ID must be 4 digits long.");
+                }
+
+            } 
+        }
+
         public string Name { get; set; }
 
         public int RollNumber { get; set; }
