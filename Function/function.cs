@@ -20,10 +20,12 @@ namespace Student_Manager.Function
 
             students.Add(new Student(id, name, rollNumber, grade));
 
+            string projectPath = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
+            string path = Path.Combine(projectPath, "Data","StudentXml");
 
             XmlSerializer serializer = new(typeof(List<Student>));
 
-            using (FileStream fs = new FileStream("students.xml", FileMode.Create))
+            using (FileStream fs = new FileStream(path, FileMode.Create))
             {
                 serializer.Serialize(fs, students);
             }
