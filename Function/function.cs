@@ -1,17 +1,16 @@
-﻿
+﻿using Student_Manager.Models;
+using System.Xml.Serialization;
 
-namespace Student_Manager.Student.cs
-
-namespace Student_Manager.Function.cs
+namespace Student_Manager.Function
 {
     internal class Function
     {
-       private List<Student> students = [];
+        private List<Student> students = [];
 
-        public bool CreateNewStudent(int id,
+        public bool CreateNewStudent(int id,    
                                      string name,
                                      int rollNumber,
-                                     char grade )
+                                     char grade)
         {
 
             if (students.Exists(c => c.Id == id))
@@ -19,7 +18,7 @@ namespace Student_Manager.Function.cs
                 throw new ArgumentException("this student is registered");
             }
 
-           students.Add(new Student(id ,name, rollNumber, grade));
+            students.Add(new Student(id, name, rollNumber, grade));
 
 
             XmlSerializer serializer = new(typeof(List<Student>));
@@ -32,11 +31,11 @@ namespace Student_Manager.Function.cs
         }
 
 
-        public bool ShowAllStudent() 
+        public bool ShowAllStudent()
         {
             if (students.Count == 0)
             {
-               throw new ArgumentException("No students registered");
+                throw new ArgumentException("No students registered");
             }
             foreach (var student in students)
             {
