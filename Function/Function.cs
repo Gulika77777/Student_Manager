@@ -5,33 +5,23 @@ namespace Student_Manager.Function
 {
     internal class Function
     {
-        private List<Student> students = [];
+        private List<Student> students = new List<Student>();
+        private string filePath = "students.xml";
 
-        public bool CreateNewStudent(int id,    
-                                     string name,
-                                     int rollNumber,
-                                     char grade)
+        public bool CreateNewStudent(string name, int rollNumber, char grade)
         {
+            var student = new Student(name, rollNumber, grade);
 
-            if (students.Exists(c => c.Id == id))
+            if (students.Exists(s => s.Id == student.Id))
             {
-                throw new ArgumentException("this student is registered");
+                throw new ArgumentException("This student is already registered");
             }
 
-            students.Add(new Student(id, name, rollNumber, grade));
+            students.Add(student);
+            SaveToXml();
 
-            string projectPath = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
-            string path = Path.Combine(projectPath, "Data","StudentXml");
-
-            XmlSerializer serializer = new(typeof(List<Student>));
-
-            using (FileStream fs = new FileStream(path, FileMode.Create))
-            {
-                serializer.Serialize(fs, students);
-            }
             return true;
         }
-
 
         public bool ShowAllStudent()
         {
@@ -39,40 +29,55 @@ namespace Student_Manager.Function
             {
                 throw new ArgumentException("No students registered");
             }
+
             foreach (var student in students)
             {
-                Console.WriteLine($" Id:{student.Id}, Name: {student.Name}, Roll Number: {student.RollNumber}, Grade: {student.Grade}");
+                Console.WriteLine(
+                    $"Id: {student.Id}, Name: {student.Name}, Roll Number: {student.RollNumber}, Grade: {student.Grade}"
+                );
             }
-            return true;
 
+            return true;
         }
 
-        public bool FindStudentById(int id)
+        public bool FindStudentById(Guid id)
         {
-            var student = students.Find(c => c.Id == id);
+            var student = students.Find(s => s.Id == id);
+
             if (student == null)
             {
                 throw new ArgumentException("Student not found");
             }
-            Console.WriteLine($" Id:{student.Id}, Name: {student.Name}, Roll Number: {student.RollNumber}, Grade: {student.Grade}");
+
+            Console.WriteLine(
+                $"Id: {student.Id}, Name: {student.Name}, Roll Number: {student.RollNumber}, Grade: {student.Grade}"
+            );
+
             return true;
         }
 
-        public bool UpdateStudentGrade(int id, char newGrade)
+        public bool UpdateStudentGrade(Guid id, char newGrade)
         {
-            var student = students.Find(c => c.Id == id);
+            var student = students.Find(s => s.Id == id);
+
             if (student == null)
             {
                 throw new ArgumentException("Student not found");
             }
+
             student.Grade = newGrade;
-            XmlSerializer serializer = new(typeof(List<Student>));
-            using (FileStream fs = new FileStream("students.xml", FileMode.Create))
+            SaveToXml();
+
+            return true;
+        }
+
+        private void SaveToXml()
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(List<Student>));
+            using (FileStream fs = new FileStream(filePath, FileMode.Create))
             {
                 serializer.Serialize(fs, students);
             }
-            return true;
         }
-
     }
 }
