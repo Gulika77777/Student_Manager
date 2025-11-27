@@ -1,6 +1,6 @@
 ﻿namespace Student_Manager.Models
 {
-    internal class Student
+   public class Student
     {
         private char _grade;
         private int _id;
@@ -38,6 +38,10 @@
 
         }
 
+        public Student()
+        {
+            
+        }
 
         public Student(int id, string name, int rollnumber, char grade)
         {

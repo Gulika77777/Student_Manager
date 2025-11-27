@@ -1,16 +1,18 @@
 ﻿using Student_Manager.Function;
+using System.Text;
 
 Function function = new Function();
 
 while (true)
 {
     Console.WriteLine("\n===== Student Manager =====");
-    Console.WriteLine("1. ახალი სტუდენტის დამატება");
-    Console.WriteLine("2. ყველა სტუდენტის ნახვა");
-    Console.WriteLine("3. სტუდენტის ძებნა ID-ის მიხედვით");
-    Console.WriteLine("4. მოსწავლის შეფასების შეცვლა");
+
+    Console.WriteLine("1. Add New Student");
+    Console.WriteLine("2. View All Students");
+    Console.WriteLine("3. Search Student by ID");
+    Console.WriteLine("4. Update Student Grade");
     Console.WriteLine("5. Exit");
-    Console.Write("აირჩიეთ ოპერაცია: ");
+    Console.Write("Choose an option: ");
 
     string choice = Console.ReadLine();
 
@@ -19,10 +21,10 @@ while (true)
         switch (choice)
         {
             case "1":
-                Console.Write("შეიყვანეთ ID: ");
+                Console.Write("Enter ID: ");
                 int id = int.Parse(Console.ReadLine());
 
-                Console.Write("სტუდენტის სახელი: ");
+                Console.Write("Student Name: ");
                 string name = Console.ReadLine();
 
                 Console.Write("Roll Number: ");
@@ -32,7 +34,7 @@ while (true)
                 char grade = char.Parse(Console.ReadLine());
 
                 function.CreateNewStudent(id, name, rollNumber, grade);
-                Console.WriteLine("სტუდენტი წარმატებით დაემატა!");
+                Console.WriteLine("Student added successfully!");
                 break;
 
             case "2":
@@ -40,34 +42,34 @@ while (true)
                 break;
 
             case "3":
-                Console.Write("შეიყვანეთ ID: ");
+                Console.Write("Enter ID: ");
                 int findId = int.Parse(Console.ReadLine());
                 function.FindStudentById(findId);
                 break;
 
             case "4":
-                Console.Write("შეიყვანეთ ID: ");
+                Console.Write("Enter ID: ");
                 int updId = int.Parse(Console.ReadLine());
 
-                Console.Write("ახალი Grade (A-F): ");
+                Console.Write("New Grade (A-F): ");
                 char newGrade = char.Parse(Console.ReadLine());
 
                 function.UpdateStudentGrade(updId, newGrade);
-                Console.WriteLine("შეფასება განახლდა!");
+                Console.WriteLine("Grade updated successfully!");
                 break;
 
             case "5":
-                Console.WriteLine("პროგრამა დასრულდა.");
+                Console.WriteLine("Program ended.");
                 return;
 
             default:
-                Console.WriteLine("არასწორი არჩევანია, სცადეთ თავიდან.");
+                Console.WriteLine("Invalid choice, please try again.");
                 break;
         }
     }
     catch (Exception ex)
     {
-        Console.WriteLine("შეცდომა: " + ex.Message);
+        Console.WriteLine("Error: " + ex.Message);
     }
 }
 
