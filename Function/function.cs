@@ -18,20 +18,19 @@ namespace Student_Manager.Function
             var student = new Student(nextId++, name, rollNumber, grade);
             students.Add(student);
 
-            students.Add(new Student( name, rollNumber, grade));
-
             XmlSerializer serializer = new XmlSerializer(typeof(List<Student>));
             using (FileStream fs = new FileStream(filePath, FileMode.Create))
             {
                 serializer.Serialize(fs, students);
             }
 
+
             return true;
 
-            if (students.Any())
-                nextId = students.Max(s => s.Id) + 1;
+    
 
         }
+
 
         public bool ShowAllStudent()
         {
@@ -130,6 +129,13 @@ namespace Student_Manager.Function
             }
         }
 
-  
+        public void UpdateNextId()
+        {
+            if (students.Any())
+                nextId = students.Max(s => s.Id) + 1;
+            else
+                nextId = 1;
+        }
+
     }
 }
