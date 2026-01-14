@@ -11,17 +11,26 @@ namespace Student_Manager.Function
         private string filePath = "students.xml";
         private int nextId = 1;
 
-        public Function()
-        {
-            LoadFromXml();
-        }
+  
 
         public bool CreateNewStudent(string name, int rollNumber, char grade)
         {
             var student = new Student(nextId++, name, rollNumber, grade);
             students.Add(student);
-            SaveToXml();
+
+            students.Add(new Student( name, rollNumber, grade));
+
+            XmlSerializer serializer = new XmlSerializer(typeof(List<Student>));
+            using (FileStream fs = new FileStream(filePath, FileMode.Create))
+            {
+                serializer.Serialize(fs, students);
+            }
+
             return true;
+
+            if (students.Any())
+                nextId = students.Max(s => s.Id) + 1;
+
         }
 
         public bool ShowAllStudent()
@@ -121,19 +130,6 @@ namespace Student_Manager.Function
             }
         }
 
-        private void LoadFromXml()
-        {
-            if (!File.Exists(filePath)) return;
-
-            XmlSerializer serializer = new XmlSerializer(typeof(List<Student>));
-            using (FileStream fs = new FileStream(filePath, FileMode.Open))
-            {
-                students = (List<Student>)serializer.Deserialize(fs);
-            }
-
-           
-            if (students.Any())
-                nextId = students.Max(s => s.Id) + 1;
-        }
+  
     }
 }
