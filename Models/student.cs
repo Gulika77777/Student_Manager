@@ -26,5 +26,9 @@ namespace Student_Manager.Models
             Id = id;
             Grade = grade;
         }
+
+        public Student(string name, int rollNumber, char grade) : base(name, rollNumber)
+        {
+        }
     }
 }
