@@ -1,19 +1,14 @@
 ﻿
-
-public abstract class  Person
+public abstract class Person
 {
-    public string name   { get; set; }
-    public int rollnumber { get; set; }
+    public string Name { get; set; }
+    public int RollNumber { get; set; }
 
+    protected Person() { }
 
-     protected Person()
+    protected Person(string name, int rollNumber)
     {
-        
-    }
-    protected Person( string name, int rollnumber)
-    {
-        this.name = name;
-        this.rollnumber = rollnumber;
+        Name = name;
+        RollNumber = rollNumber;
     }
 }
-

@@ -1,12 +1,11 @@
 ﻿using Student_Manager.Function;
-using System.Text;
+using System;
 
 Function function = new Function();
 
 while (true)
 {
     Console.WriteLine("\n===== Student Manager =====");
-
     Console.WriteLine("1. Add New Student");
     Console.WriteLine("2. View All Students");
     Console.WriteLine("3. Search Student by ID");
@@ -21,9 +20,6 @@ while (true)
         switch (choice)
         {
             case "1":
-                Console.Write("Enter ID: ");
-                int id = int.Parse(Console.ReadLine());
-
                 Console.Write("Student Name: ");
                 string name = Console.ReadLine();
 
@@ -33,7 +29,7 @@ while (true)
                 Console.Write("Grade (A-F): ");
                 char grade = char.Parse(Console.ReadLine());
 
-                function.CreateNewStudent(id, name, rollNumber, grade);
+                function.CreateNewStudent(name, rollNumber, grade);
                 Console.WriteLine("Student added successfully!");
                 break;
 
@@ -42,14 +38,15 @@ while (true)
                 break;
 
             case "3":
-                Console.Write("Enter ID: ");
-                int findId = int.Parse(Console.ReadLine());
+                Console.Write("Enter Student ID (Guid): ");
+                Guid findId = Guid.Parse(Console.ReadLine());
+
                 function.FindStudentById(findId);
                 break;
 
             case "4":
-                Console.Write("Enter ID: ");
-                int updId = int.Parse(Console.ReadLine());
+                Console.Write("Enter Student ID (Guid): ");
+                Guid updId = Guid.Parse(Console.ReadLine());
 
                 Console.Write("New Grade (A-F): ");
                 char newGrade = char.Parse(Console.ReadLine());
@@ -72,4 +69,5 @@ while (true)
         Console.WriteLine("Error: " + ex.Message);
     }
 }
+
 
