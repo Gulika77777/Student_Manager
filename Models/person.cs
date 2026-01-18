@@ -1,7 +1,7 @@
 ﻿public abstract class Person
 {
-    public string Name { get; protected set; } = string.Empty;
-    public int RollNumber { get; protected set; }
+    public string Name { get;  set; } = string.Empty;
+    public int RollNumber { get;  set; }
 
     protected Person() { }
 
