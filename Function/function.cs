@@ -11,7 +11,11 @@ namespace Student_Manager.Function
         private string filePath = "students.xml";
         private int nextId = 1;
 
-  
+        private readonly string fPath = Path.Combine(
+             Directory.GetParent(Environment.CurrentDirectory)!.Parent!.Parent!.FullName,
+             "Data",
+             "students.xml"
+         );
 
         public bool CreateNewStudent(string name, int rollNumber, char grade)
         {
@@ -19,7 +23,7 @@ namespace Student_Manager.Function
             students.Add(student);
 
             XmlSerializer serializer = new XmlSerializer(typeof(List<Student>));
-            using (FileStream fs = new FileStream(filePath, FileMode.Create))
+            using (FileStream fs = new FileStream(fPath, FileMode.Create))
             {
                 serializer.Serialize(fs, students);
             }
