@@ -1,6 +1,7 @@
 ﻿using Student_Manager.Function;
 using Student_Manager.Models;
 using System;
+using System.Collections.Generic;
 
 Function function = new Function();
 
@@ -18,7 +19,7 @@ while (true)
     Console.WriteLine("9. Exit");
     Console.Write("Choose an option: ");
 
-    string choice = Console.ReadLine();
+    string? choice = Console.ReadLine();
 
     try
     {
@@ -26,13 +27,21 @@ while (true)
         {
             case "1":
                 Console.Write("Student Name: ");
-                string name = Console.ReadLine();
+                string name = Console.ReadLine() ?? string.Empty;
 
                 Console.Write("Roll Number: ");
-                int rollNumber = int.Parse(Console.ReadLine());
+                if (!int.TryParse(Console.ReadLine(), out int rollNumber))
+                {
+                    Console.WriteLine("Invalid roll number.");
+                    break;
+                }
 
                 Console.Write("Grade (A-F): ");
-                char grade = char.Parse(Console.ReadLine());
+                if (!char.TryParse(Console.ReadLine(), out char grade))
+                {
+                    Console.WriteLine("Invalid grade.");
+                    break;
+                }
 
                 function.CreateNewStudent(name, rollNumber, grade);
                 Console.WriteLine("Student added successfully!");
@@ -44,16 +53,28 @@ while (true)
 
             case "3":
                 Console.Write("Enter Student ID: ");
-                int findId = int.Parse(Console.ReadLine());
+                if (!int.TryParse(Console.ReadLine(), out int findId))
+                {
+                    Console.WriteLine("Invalid ID.");
+                    break;
+                }
                 function.FindStudentById(findId);
                 break;
 
             case "4":
                 Console.Write("Enter Student ID: ");
-                int updId = int.Parse(Console.ReadLine());
+                if (!int.TryParse(Console.ReadLine(), out int updId))
+                {
+                    Console.WriteLine("Invalid ID.");
+                    break;
+                }
 
                 Console.Write("New Grade (A-F): ");
-                char newGrade = char.Parse(Console.ReadLine());
+                if (!char.TryParse(Console.ReadLine(), out char newGrade))
+                {
+                    Console.WriteLine("Invalid grade.");
+                    break;
+                }
 
                 function.UpdateStudentGrade(updId, newGrade);
                 Console.WriteLine("Grade updated successfully!");
@@ -61,7 +82,8 @@ while (true)
 
             case "5":
                 Console.Write("Enter name to search: ");
-                string searchName = Console.ReadLine();
+                string searchName = Console.ReadLine() ?? string.Empty;
+
                 var resultsByName = function.SearchByName(searchName);
                 if (resultsByName.Count == 0)
                     Console.WriteLine("No students found.");
@@ -72,7 +94,12 @@ while (true)
 
             case "6":
                 Console.Write("Enter Roll Number: ");
-                int searchRoll = int.Parse(Console.ReadLine());
+                if (!int.TryParse(Console.ReadLine(), out int searchRoll))
+                {
+                    Console.WriteLine("Invalid roll number.");
+                    break;
+                }
+
                 var studentByRoll = function.SearchByRollNumber(searchRoll);
                 if (studentByRoll == null)
                     Console.WriteLine("Student not found.");
@@ -82,8 +109,9 @@ while (true)
 
             case "7":
                 Console.WriteLine("Sort by: 1-Name, 2-Grade, 3-RollNumber");
-                string sortOption = Console.ReadLine();
-                List<Student> sortedList = null;
+                string? sortOption = Console.ReadLine();
+
+                List<Student> sortedList = new();
 
                 switch (sortOption)
                 {
@@ -101,16 +129,20 @@ while (true)
                         break;
                 }
 
-                if (sortedList != null)
-                    foreach (var s in sortedList)
-                        Console.WriteLine($"{s.Id}: {s.Name}, Roll: {s.RollNumber}, Grade: {s.Grade}");
+                foreach (var s in sortedList)
+                    Console.WriteLine($"{s.Id}: {s.Name}, Roll: {s.RollNumber}, Grade: {s.Grade}");
                 break;
 
             case "8":
                 Console.Write("Enter name to filter: ");
-                string filterName = Console.ReadLine();
+                string filterName = Console.ReadLine() ?? string.Empty;
+
                 Console.Write("Enter Grade to filter (A-F): ");
-                char filterGrade = char.Parse(Console.ReadLine());
+                if (!char.TryParse(Console.ReadLine(), out char filterGrade))
+                {
+                    Console.WriteLine("Invalid grade.");
+                    break;
+                }
 
                 var filteredList = function.FilterByNameAndGrade(filterName, filterGrade);
                 if (filteredList.Count == 0)

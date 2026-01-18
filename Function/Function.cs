@@ -82,7 +82,7 @@ namespace Student_Manager.Function
         }
 
 
-        public Student SearchByRollNumber(int rollNumber)
+        public Student? SearchByRollNumber(int rollNumber)
         {
             return students.FirstOrDefault(s => s.RollNumber == rollNumber);
         }

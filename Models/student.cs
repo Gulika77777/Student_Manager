@@ -30,5 +30,10 @@ namespace Student_Manager.Models
         public Student(string name, int rollNumber, char grade) : base(name, rollNumber)
         {
         }
+
+        public override string ToString()
+        {
+            return $"{Id}: {Name}, Roll: {RollNumber}, Grade: {Grade}";
+        }
     }
 }
